@@ -345,3 +345,22 @@ def _extract_transcript(payload: dict) -> str:
         return summary
 
     return ""
+
+
+# ─── DATETIME TOOL (ElevenLabs Custom Tool) ──────────────────────────────────
+
+from zoneinfo import ZoneInfo
+
+@app.get("/tools/datetime")
+def get_datetime():
+    """
+    Returns current date and time in Eastern time.
+    Registered as a custom tool in ElevenLabs — called by Mel at conversation start.
+    """
+    now = datetime.now(ZoneInfo("America/New_York"))
+    return {
+        "day_of_week": now.strftime("%A"),
+        "date": now.strftime("%B %d, %Y"),
+        "time": now.strftime("%I:%M %p"),
+        "full": now.strftime("%A, %B %d, %Y at %I:%M %p ET")
+    }
