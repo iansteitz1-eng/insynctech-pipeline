@@ -29,6 +29,7 @@ from follow_up_engine import build_followup
 from agent_config import resolve_agent
 from sms_sender import send_followup_sms
 from followup_email import send_followup_email
+from aria_brain import get_aria_response, send_telegram_message
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger(__name__)
