@@ -48,4 +48,4 @@ async def get_aria_response(chat_id: int, user_message: str) -> str:
 async def send_telegram_message(chat_id: int, text: str):
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     async with httpx.AsyncClient(timeout=10) as client:
-        await client.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": "Markdown"})
+        await client.post(url, json={"chat_id": chat_id, "text": text, "parse_mode": "HTML"})
