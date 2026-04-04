@@ -38,6 +38,10 @@ async def get_aria_response(chat_id: int, user_message: str) -> str:
                 json={"model": "claude-haiku-4-5-20251001", "max_tokens": 1024, "system": ARIA_SYSTEM_PROMPT, "messages": history},
             )
             data = response.json()
+            if "content" not in data:
+                return f"API error: {data.get('error', {}).get('message', str(data))}"
+            if "content" not in data:
+                return str(data.get("error", data))
             reply = data["content"][0]["text"]
             history.append({"role": "assistant", "content": reply})
             _conversations[chat_id] = history
