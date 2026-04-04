@@ -405,15 +405,16 @@ async def register_telegram_webhook(request: Request):
 
 @app.on_event("startup")
 async def startup_register_webhook():
-    import os, httpx
+    import httpx
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
-    base_url = os.environ.get("RAILWAY_PUBLIC_DOMAIN", "")
-    if token and base_url:
+    webhook_url = "https://web-production-18ab8.up.railway.app/telegram"
+    if token:
         try:
             async with httpx.AsyncClient(timeout=10) as client:
-                await client.post(
+                r = await client.post(
                     f"https://api.telegram.org/bot{token}/setWebhook",
-                    json={"url": f"https://{base_url}/telegram", "drop_pending_updates": False}
+                    json={"url": webhook_url, "drop_pending_updates": False}
                 )
-        except Exception:
-            pass
+                log.info(f"Webhook registration: {r.json()}")
+        except Exception as e:
+            log.error(f"Webhook registration failed: {e}")
